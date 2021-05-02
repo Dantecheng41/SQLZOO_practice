@@ -185,6 +185,161 @@ WHERE name NOT LIKE '% %' AND name LIKE '%a%' AND name LIKE '%e%' AND name LIKE 
 6. 4
 7. 3
 
+## SELECT from WORLD Tutorial
+
+1. Q : Change the query shown so that it displays Nobel prizes for 1950.
+
+   A :
+
+```sql
+SELECT yr, subject, winner
+FROM nobel
+WHERE yr = 1950
+```
+
+2. Q : Show who won the 1962 prize for Literature.
+
+   A :
+
+```sql
+SELECT winner
+FROM nobel
+WHERE yr = 1962 AND subject = 'Literature'
+```
+
+3. Q : Show the year and subject that won 'Albert Einstein' his prize.
+
+   A :
+
+```sql
+SELECT yr, subject
+FROM nobel
+WHERE winner = 'Albert Einstein'
+```
+
+4. Q : Give the name of the 'Peace' winners since the year 2000, including 2000.
+   A :
+
+```sql
+SELECT winner
+FROM nobel
+WHERE yr >= 2000 AND subject = 'Peace'
+```
+
+5. Q : Show all details (yr, subject, winner) of the Literature prize winners for 1980 to 1989 inclusive.
+
+   A :
+
+```sql
+SELECT yr , subject ,winner FROM nobel
+WHERE subject = 'Literature' AND yr BETWEEN 1980 AND 1989
+```
+
+6. Q : Show all details of the presidential winners:
+   Theodore Roosevelt
+   Woodrow Wilson
+   Jimmy Carter
+   Barack Obama
+
+   A :
+
+```sql
+SELECT *
+FROM nobel
+WHERE winner IN ('Theodore Roosevelt','Woodrow Wilson','Jimmy Carter','Barack Obama')
+```
+
+7. Q : Show the winners with first name John
+
+   A :
+
+```sql
+SELECT winner
+FROM nobel
+WHERE winner LIKE 'John%'
+```
+
+8. Q : Show the year, subject, and name of Physics winners for 1980 together with the Chemistry winners for 1984.
+
+   A :
+
+```sql
+SELECT *
+FROM nobel
+WHERE (subject = 'Physics' AND yr = 1980) OR (subject = 'Chemistry' AND yr = 1984)
+```
+
+9. Q : Show the year, subject, and name of winners for 1980 excluding Chemistry and Medicine
+
+   A :
+
+```sql
+SELECT *
+FROM  nobel
+WHERE yr = 1980 AND subject NOT IN ('Chemistry' , 'Medicine')
+```
+
+10. Q : Show year, subject, and name of people who won a 'Medicine' prize in an early year (before 1910, not including 1910) together with winners of a 'Literature' prize in a later
+    year(after 2004, including 2004)
+
+    A :
+
+```sql
+SELECT *
+FROM nobel
+WHERE subject = 'Medicine' AND yr < 1910 OR subject = 'Literature' AND yr >= 2004
+```
+
+11. Q : Find all details of the prize won by PETER GRÜNBERG
+
+    A :
+
+```sql
+SELECT *
+FROM nobel
+WHERE winner = 'PETER GRÜNBERG'
+```
+
+12. Q : Find all details of the prize won by EUGENE O'NEILL
+
+    A :
+
+```sql
+SELECT *
+FROM nobel
+WHERE winner = 'EUGENE O''NEILL'
+```
+
+13. Q : List the winners, year and subject where the winner starts with Sir. Show the the most recent first, then by name order.
+
+    A :
+
+```sql
+SELECT winner, yr, subject
+FROM nobel
+WHERE winner LIKE 'SIR%' ORDER BY yr DESC , winner
+```
+
+14. Q : Show the 1984 winners and subject ordered by subject and winner name; but list Chemistry and Physics last.
+
+    A :
+
+```sql
+SELECT winner, subject
+FROM nobel
+WHERE yr=1984 ORDER BY CASE WHEN subject IN ('Chemistry', 'Physics') THEN 1 ELSE 0 END, subject, winner
+```
+
+## BBC QUIZ
+
+1. 5
+2. 3
+3. 2
+4. 3
+5. 3
+6. 4
+7. 3
+
 ## SELECT within SELECT Tutorial
 
 1.  Q : Find the largest country (by area) in each continent, show the continent, the name and the area
