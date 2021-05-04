@@ -423,13 +423,15 @@ JOIN  (SELECT continent, MAX(area) AS area FROM world GROUP BY continent) AS y O
 WHERE x.area >= y.area
 ```
 
-8. Q : List each continent and the name of the country that comes first alphabetically.
+8. Q : List each continent and the name of the country that comes first alphabetically.(p)
 
    A :
 
 ```sql
-SELECT name, continent, population
-FROM world y
+SELECT continent, name FROM world x
+  WHERE name <= ALL
+    (SELECT name FROM world y
+        WHERE y.continent=x.continent)
 ```
 
 9. Q : Find the continents where all countries have a population <= 25000000. Then find the names of the countries associated with these continents. Show name, continent and population.
@@ -461,4 +463,96 @@ WHERE x.population/3 >= all(select population from world y where x.continent=y.c
 4. 4
 5. 2
 6. 2
-7. 4
+7. 2
+
+## SUM and COUNT
+
+1. Q : Show the total population of the world.
+
+   A :
+
+```sql
+SELECT SUM(population)
+FROM world
+```
+
+2. Q : List all the continents - just once each.
+
+   A :
+
+```sql
+SELECT DISTINCT continent
+FROM world
+```
+
+3. Q : Give the total GDP of Africa
+
+   A :
+
+```sql
+SELECT SUM(gdp)
+FROM world
+WHERE continent = 'Africa'
+```
+
+4. Q : How many countries have an area of at least 1000000
+
+   A :
+
+```sql
+SELECT COUNT(DISTINCT name)
+FROM world
+WHERE area >= 1000000
+```
+
+5. Q : What is the total population of ('Estonia', 'Latvia', 'Lithuania')
+
+   A :
+
+```sql
+SELECT SUM(population)
+FROM world
+WHERE name IN ('Estonia', 'Latvia', 'Lithuania')
+```
+
+6. Q : For each continent show the continent and number of countries.
+
+   A :
+
+```sql
+SELECT continent , COUNT(name)
+FROM world
+GROUP BY continent
+```
+
+7. Q : For each continent show the continent and number of countries with populations of at least 10 million.
+
+   A1 :
+
+```sql
+SELECT continent , COUNT(name)
+FROM world
+WHERE population > 10000000
+GROUP BY continent
+```
+
+8. Q : List the continents that have a total population of at least 100 million.
+
+   A :
+
+```sql
+SELECT continent
+FROM world
+GROUP BY continent
+HAVING SUM(population) > 100000000
+```
+
+## Nested SELECT Quiz
+
+1. 3
+2. 2
+3. 1
+4. 4
+5. 2
+6. 2
+7. 2
