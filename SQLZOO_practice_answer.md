@@ -701,3 +701,178 @@ ORDER BY mdate, matchid ,team1 ,team2;
 5. 2
 6. 3
 7. 2
+
+## More JOIN operations
+
+1. Q : List the films where the yr is 1962 [Show id, title]
+
+   A :
+
+```sql
+SELECT id, title
+FROM movie
+WHERE yr=1962
+```
+
+2. Q : Give year of 'Citizen Kane'.
+
+   A :
+
+```sql
+SELECT yr
+FROM movie
+WHERE title = 'Citizen Kane'
+```
+
+3. Q : List all of the Star Trek movies, include the id, title and yr (all of these movies include the words Star Trek in the title). Order results by year.
+
+   A :
+
+```sql
+SELECT id, title, yr
+FROM movie
+WHERE title LIKE 'Star Trek%'
+```
+
+4. Q : What id number does the actor 'Glenn Close' have?
+
+   A :
+
+```sql
+SELECT id
+FROM actor
+WHERE name = 'Glenn Close'
+```
+
+5. Q : What is the id of the film 'Casablanca'
+
+   A :
+
+```sql
+SELECT id
+FROM movie
+WHERE title = 'Casablanca'
+```
+
+6. Q : Obtain the cast list for 'Casablanca'.
+
+   A :
+
+```sql
+SELECT name
+FROM casting JOIN actor ON id = actorid
+WHERE movieid = 27
+```
+
+7. Q : Obtain the cast list for the film 'Alien'
+
+   A :
+
+```sql
+SELECT name
+FROM movie JOIN casting ON movie.id = casting.movieid
+JOIN actor ON casting.actorid = actor.id
+WHERE title = 'Alien'
+```
+
+8. Q : List the films in which 'Harrison Ford' has appeared
+
+   A :
+
+```sql
+SELECT title
+FROM movie JOIN casting ON movie.id = casting.movieid
+JOIN actor ON casting.actorid = actor.id
+WHERE name = 'Harrison Ford'
+```
+
+9. Q : List the films where 'Harrison Ford' has appeared - but not in the starring role. [Note: the ord field of casting gives the position of the actor. If ord=1 then this actor is in the starring role]
+
+   A :
+
+```sql
+SELECT title
+FROM movie JOIN casting ON movie.id = casting.movieid
+JOIN actor ON casting.actorid = actor.id
+WHERE name = 'Harrison Ford' AND ord != 1
+```
+
+10. Q : List the films together with the leading star for all 1962 films.
+
+    A :
+
+```sql
+SELECT title, name
+FROM actor JOIN casting ON actor.id = casting.actorid JOIN movie ON movie.id = casting.movieid
+WHERE yr = 1962 AND ord = 1
+```
+
+11. Q : Which were the busiest years for 'Rock Hudson', show the year and the number of movies he made each year for any year in which he made more than 2 movies.
+
+    A :
+
+```sql
+SELECT yr, COUNT(title)
+FROM movie JOIN casting ON movie.id=movieid
+JOIN actor ON actorid=actor.id
+WHERE name='Rock Hudson'
+GROUP BY yr
+HAVING COUNT(title) > 1
+```
+
+12. Q : List the film title and the leading actor for all of the films 'Julie Andrews' played in.
+
+    A :
+
+```sql
+SELECT title, name
+FROM actor JOIN casting ON actor.id = casting.actorid
+JOIN movie ON movie.id = casting.movieid
+WHERE movieid IN (SELECT movieid FROM casting WHERE actorid = (SELECT id FROM actor WHERE name = 'Julie Andrews')) AND ord = 1
+ORDER BY title DESC
+```
+
+13. Q : Obtain a list, in alphabetical order, of actors who've had at least 15 starring roles.
+
+    A :
+
+```sql
+SELECT name
+FROM actor JOIN casting ON actor.id = casting.actorid
+WHERE ord = 1
+GROUP BY name
+HAVING COUNT(actorid) >= 15
+```
+
+14. Q : List the films released in the year 1978 ordered by the number of actors in the cast, then by title.
+
+    A :
+
+```sql
+SELECT DISTINCT title ,COUNT(actorid)
+FROM movie JOIN casting ON id = movieid
+WHERE yr = 1978
+GROUP BY title
+ORDER BY COUNT(actorid) DESC ,title
+```
+
+15. Q : List all the people who have worked with 'Art Garfunkel'.
+
+    A :
+
+```sql
+SELECT DISTINCT name
+FROM actor JOIN casting ON actor.id = casting.actorid
+JOIN movie ON movie.id = casting.movieid
+WHERE actor.id IN ( SELECT actorid FROM casting WHERE movieid IN (SELECT movieid FROM actor JOIN casting ON id = actorid WHERE name = 'Art Garfunkel')) AND name !=  'Art Garfunkel'
+```
+
+## JOIN Quiz
+
+1. 3
+2. 5
+3. 3
+4. 2
+5. 4
+6. 3
+7. 2
