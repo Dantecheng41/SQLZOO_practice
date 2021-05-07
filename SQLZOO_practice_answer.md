@@ -2,15 +2,24 @@
 
 ## Sections:
 
-1. [SELECT basics](#select-basics)
-2. [SELECT from WORLD](#select-from-world)
-3. [SELECT from NOBEL](#select-from-nobel)
-4. [SELECT in SELECT](#select-in-select)
-5. [SUM and COUNT](#sum-and-count)
-6. [JOIN](#join)
-7. [More JOIN](#more-join)
-8. [Using NULL](#using-null)
-9. [Self JOIN](#self-join)
+1. [SELECT basics](#SELECT-basics)
+2. [SELECT basics quiz](#SELECT-basics-quiz)
+3. [SELECT from WORLD Tutorial](#SELECT-from-WORLD-Tutorial)
+4. [WORLD QUIZ](#WORLD-QUIZ)
+5. [SELECT from Nobel Tutorial](#SELECT-from-Nobel-Tutorial)
+6. [NOBEL QUIZ](#NOBEL-QUIZ)
+7. [SELECT within SELECT Tutorial](#SELECT-within-SELECT-Tutorial)
+8. [Nested SELECT Quiz](#Nested-SELECT-Quiz)
+9. [SUM and COUNT](#SUM-and-COUNT)
+10. [SUM and COUNT Quiz](#SUM-and-COUNT-Quiz)
+11. [The JOIN operation](#The-JOIN-operation)
+12. [JOIN Quiz](#JOIN-Quiz)
+13. [More JOIN operations](#More-JOIN-operations)
+14. [JOIN Quiz 2](#JOIN-Quiz-2)
+15. [Using Null](#Using-Null)
+16. [Using Null Quiz](#Using-Null-Quiz)
+17. [Self join](#Self-join)
+18. [Self join Quiz](#Self-join-Quiz)
 
 ## SELECT basics
 
@@ -187,7 +196,7 @@ FROM world
 WHERE name NOT LIKE '% %' AND name LIKE '%a%' AND name LIKE '%e%' AND name LIKE '%i%' AND name LIKE '%o%' AND name LIKE '%u%'
 ```
 
-## BBC QUIZ
+## WORLD QUIZ
 
 1. 5
 2. 4
@@ -342,7 +351,7 @@ FROM nobel
 WHERE yr=1984 ORDER BY CASE WHEN subject IN ('Chemistry', 'Physics') THEN 1 ELSE 0 END, subject, winner
 ```
 
-## BBC QUIZ
+## NOBEL QUIZ
 
 1. 5
 2. 3
